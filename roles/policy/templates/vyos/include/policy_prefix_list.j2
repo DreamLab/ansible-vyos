@@ -1,0 +1,17 @@
+policy {
+{% for pfx in policy_prefix_list -%}
+prefix-list {{ pfx }} {
+
+{% if policy_prefix_list[pfx].prefixes is defined -%}
+
+{% for prefix in policy_prefix_list[pfx].prefixes -%}
+{% set myloop = loop.index*10 %}
+    rule {{myloop}} {
+	action permit 
+	prefix {{prefix}}
+    }
+{% endfor -%}
+{% endif -%}
+  }
+{% endfor %}
+}

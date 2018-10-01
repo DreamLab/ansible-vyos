@@ -1,0 +1,37 @@
+/* Warning: Do not remove the following line. */
+/* === vyatta-config-version: "cluster@1:config-management@1:conntrack-sync@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@4:nat@4:qos@1:quagga@2:system@6:vrrp@1:wanloadbalance@3:webgui@1:webproxy@1:zone-policy@1" === */
+/* Release version: VyOS 1.1.8 */
+
+{% include "include/system_base.j2" %}
+
+{% if system_ntp is defined %}
+{% include "include/system_ntp.j2" %}
+{% endif %}
+
+{% if system_dns is defined %}
+{% include "include/system_dns.j2" %}
+{% endif %}
+
+{% include "include/system_ssh.j2" %}
+
+{% if system_interfaces is defined %}
+{% include "include/system_interfaces.j2" %}
+{% endif %}
+
+{% include "include/system_syslog.j2" %}
+
+{% include "include/system_accounts.j2" %}
+
+{% if system_banner is defined %}
+{% include "include/system_banner.j2" %}
+{% endif %}
+
+
+{% if system_snmp is defined %}
+{% include "include/system_snmp.j2" %}
+{% endif %}
+
+
+{% if system_dhcp_relay is defined %}
+{% include "include/system_dhcp_relay.j2" %}
+{% endif %}

@@ -1,0 +1,23 @@
+policy {
+    route mss {
+         rule 5 {
+             protocol tcp
+             set {
+                 tcp-mss {{ policy_mss_value }}
+             }
+             tcp {
+                 flags SYN
+             }
+         }
+         rule 10 {
+             protocol tcp
+             set {
+                 tcp-mss {{ policy_mss_value}}
+             }
+             tcp {
+                 flags SYN,RST
+             }
+         }
+   }
+}
+

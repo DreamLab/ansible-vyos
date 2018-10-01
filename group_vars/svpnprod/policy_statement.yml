@@ -1,0 +1,24 @@
+---
+policy_statement:
+  "policy-amazon-in":
+    terms:
+      - name: "amazon-vpcs"
+        from:
+          prefix_list: "pfx-amazon-vpcs"
+        then:
+          action: "accept"
+      - name: "default"
+        then:
+          action: "reject"
+  "policy-amazon-out":
+    terms:
+      - name: "Oout"
+        from:
+          prefix_list: "pfx-announce-to-aws"
+        then:
+          action: "accept"
+          metric: "100"
+          origin: "igp"
+      - name: "default"
+        then:
+          action: "reject"

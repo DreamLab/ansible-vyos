@@ -1,0 +1,13 @@
+
+{% if policy_mss_value is defined and ( policy_mss_interface is defined) -%}
+  {% include "include/policy_mss.j2" %}
+{% endif %}
+
+{% if policy_prefix_list is defined -%}
+  {% include "include/policy_prefix_list.j2" %}
+{% endif %}
+
+{% if policy_statement is defined -%}
+  {% include "include/policy_statement.j2" %}
+{% endif %}
+

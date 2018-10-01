@@ -1,0 +1,40 @@
+{% macro translate_action(action) %}
+{%- if action =='accept' %}
+permit
+{%- elif action =='reject' %}
+deny
+{%- else %}
+deny
+{% endif %}
+{% endmacro %}
+
+policy {
+{% for statement in policy_statement -%}
+  route-map {{statement}} {
+  {% for term in policy_statement[statement].terms -%}
+  rule {{loop.index*10}} {
+    action {{translate_action(term.then.action)}}
+    {% if term.from is defined and term.from.prefix_list is defined -%}
+    match {
+      ip {
+        address {
+          prefix-list {{term.from.prefix_list}} 
+        }
+      }
+    }
+    {% endif -%}
+
+    {% if term.then is defined and (term.then.metric is defined or term.then.origin is defined)-%}
+    set {
+      metric {% if term.then.metric is defined %} {{term.then.metric}} {% endif %}
+
+      origin {% if term.then.origin is defined %} {{term.then.origin}} {% endif %}
+    
+    }
+    {% endif -%}
+  } 
+  {% endfor -%}
+  }
+
+{% endfor -%} 
+}

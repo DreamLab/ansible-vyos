@@ -1,0 +1,9 @@
+
+system {
+    ntp {
+        {% for ntpsrv in system_ntp -%}
+        server {{ ntpsrv.address }} {
+        }
+        {% endfor -%}
+    }
+}

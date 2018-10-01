@@ -1,0 +1,21 @@
+
+service {
+     snmp {
+ 
+		 {% if system_snmp.contact is defined -%}
+         contact "{{system_snmp.contact}}"
+		 {% endif -%}
+         {% if system_snmp.location is defined -%}
+         location "{{system_snmp.location}}"
+         {% endif -%}
+		 
+		 {% for community in system_snmp.communities -%}
+         community {{community}} {
+           authorization {{system_snmp.communities[community].authorization}}
+		   {% for client in system_snmp.communities[community].clients -%}
+             client {{client}}
+           {% endfor -%}
+         }
+         {% endfor -%}
+     }
+ }

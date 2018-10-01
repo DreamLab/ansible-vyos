@@ -1,0 +1,4 @@
+---
+- name: "Building configuration from nat role"
+  template: src={{os}}/nat.j2 dest={{baseconfdir.path}}/2_nat.out
+  tags: build

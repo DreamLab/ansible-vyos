@@ -1,0 +1,50 @@
+system {
+    login {
+        {% for user in system_accounts -%}
+        user {{ user.login }} {
+            authentication {
+                {% if user.encryptedpass is defined -%}
+                encrypted-password "{{ user.encryptedpass }}"
+                {% endif -%}
+                {% if user.plaintextpassword is defined -%}
+                plaintext-password  "{{ user.plaintextpassword }}"
+                {% endif -%}
+                
+                {% if user.publickeys is defined -%}
+                {% for keys in user.publickeys -%}
+                public-keys {{ keys.keyname }} {
+                    key "{{ keys.key }}"
+                    type {{ keys.keytype }}
+                }
+                {% endfor -%}
+                {% endif -%}
+            }
+            level admin
+        }
+        {% endfor -%}
+	{% if system_additional_accounts is defined -%}
+	{% for user in system_additional_accounts -%}
+        user {{ user.login }} {
+            authentication {
+                {% if user.encryptedpass is defined -%}
+                encrypted-password "{{ user.encryptedpass }}"
+                {% endif -%}
+                {% if user.plaintextpassword is defined -%}
+                plaintext-password  "{{ user.plaintextpassword }}"
+                {% endif -%}
+                
+                {% if user.publickeys is defined -%}
+                {% for keys in user.publickeys -%}
+                public-keys {{ keys.keyname }} {
+                    key "{{ keys.key }}"
+                    type {{ keys.keytype }}
+                }
+                {% endfor -%}
+                {% endif -%}
+            }
+            level admin
+        }
+        {% endfor -%}
+	{% endif -%}
+    }
+}

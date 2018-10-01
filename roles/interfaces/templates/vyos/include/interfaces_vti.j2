@@ -1,0 +1,9 @@
+interfaces {
+{% for vti in ipsec_vti -%}
+vti {{vti.iface}} {
+  address {{vti.local_ip}}/{{vti.mask}}
+  mtu 1436
+}
+{% endfor -%}
+
+}

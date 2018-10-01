@@ -1,0 +1,8 @@
+
+{% if nat_source_rules is defined -%}
+  {% include "include/nat_source_rules.j2" %}
+{% endif %}
+
+{% if nat_destination_rules is defined -%}
+  {% include "include/nat_destination_rules.j2" %}
+{% endif %}

@@ -1,0 +1,20 @@
+---
+- name: Check VyOS BGP Sessions
+  hosts: svpnprod
+  connection: local
+  gather_facts: no
+  tags: check
+  tasks:
+    - name: get bgp neighbors from device
+      napalm_get_facts:
+        hostname: "{{ ansible_ssh_host | default('vyos') }}"
+        username: "{{ ansible_ssh_user | default('vyos') }}"
+        password: "{{ ansible_ssh_password | default('vyos') }}"
+        dev_os: "{{ os }}"
+        optional_args: "{'port': {{ansible_ssh_port | default('22')}} }"
+        filter: 'bgp_neighbors'
+      register: result
+    - name: Check BGP Status
+      check_bgp_status:
+        device_name: "{{ inventory_hostname }}"
+        bgp_neighbors: "{{ result }}"

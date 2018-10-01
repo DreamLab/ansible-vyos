@@ -1,0 +1,46 @@
+
+interfaces {
+        {% for intf in system_interfaces -%}
+        {{ system_interfaces[intf].type }} {{ intf }} {
+          address {{ system_interfaces[intf].address }}
+          {% if system_interfaces[intf].description is defined -%}
+          description {{ system_interfaces[intf].description }}
+          {% endif -%}
+          {% if system_interfaces[intf].duplex is defined -%}
+          duplex {{ system_interfaces[intf].duplex }}
+          {% endif -%}
+          {% if system_interfaces[intf].duplex is defined -%}
+          hw-id {{ system_interfaces[intf].hw_id }}
+          {% endif -%}
+          {% if system_interfaces[intf].smp_affinity is defined -%}
+          smp_affinity {{ system_interfaces[intf].smp_affinity }}
+          {% endif -%}
+          {% if system_interfaces[intf].speed is defined -%}
+          speed {{ system_interfaces[intf].speed }}
+          {% endif -%}
+          {% if firewall_interfaces is defined and ( firewall_rules is defined )  -%}
+          {% if firewall_interfaces[intf] is defined %}
+          firewall {
+            {% if firewall_interfaces[intf].in is defined -%}
+            in {
+                name {{ firewall_interfaces[intf].in }}
+            }
+            {% endif -%}
+            {% if firewall_interfaces[intf].out is defined -%}
+            out {
+                name {{ firewall_interfaces[intf].out}}
+            }
+            {% endif-%}
+          }
+          {% endif -%}
+          {% endif -%}
+          {% if policy_mss_interface is defined -%}
+          {% if policy_mss_interface == intf -%}
+          policy {
+            route mss
+          }
+          {% endif -%}
+          {% endif -%}
+        }
+    {% endfor -%}
+}

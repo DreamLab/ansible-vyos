@@ -1,0 +1,6 @@
+---
+routing_options:
+  main:
+    graceful_restart: "yes"
+    router_id: "{{system_main_address_ipv4}}"
+    asn: "65065"

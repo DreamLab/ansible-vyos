@@ -1,0 +1,63 @@
+---
+os: vyos
+
+system_hostname: "svpn-aws-1"
+
+system_ntp:
+  - {address: "4.pool.ntp.org"}
+  - {address: "2.pool.ntp.org"}
+
+system_dns:
+  - "1.1.1.1"
+  - "8.8.8.8"
+system_snmp:
+  contact: "a@b.com"
+  location: "Galaxy"
+  listen_interface: "eth0"
+  communities:
+    public:
+      authorization: "ro"
+      clients:
+        - "11.11.11.11"
+        - "10.10.10.11"
+system_timezone: "Europe/Warsaw"
+
+system_banner: >
+  PRODUCTION NETWORK UNAUTHORIZED USE OF THIS SYSTEM IS PROHIBITED!
+
+system_interfaces:
+  eth0:
+    type: "ethernet"
+    address: "192.168.138.237/24"
+    description: "management"
+  dum1:
+    type: "dummy"
+    address: "172.16.3.1/24"
+    description: "inside"
+  dum2:
+    type: "dummy"
+    address: "172.16.5.1/24"
+    description: "outside"
+
+    policy_mss_value: "1400"
+policy_mss_interface: "dum1"
+
+system_main_address_ipv4: "1.1.1.1"
+
+nat_source_rules:
+  - {description: "ru1", source_address: "192.168.200.0/24",
+     outbound_interface: "dum2", translation_address: "172.16.3.1-172.16.3.100"}
+
+firewall_rules:
+  - name: "example_acl_2"
+    default_action: "drop"
+    rules: 
+    - {action: "accept", protocol: "icmp"}
+    - {action: "accept", destination_address: "192.168.0.0/16", destination_port: "80", protocol: "tcp"}
+    - {action: "accept", destination_address: "1.2.3.5/32", destination_port: "53", source_address: "4.2.4.4/32", source_port: "1024-65535", protocol: "tcp_udp"}
+    - {action: "accept", destination_port: "53"}
+firewall_interfaces:
+  dum2:
+    out: "example_acl_2"
+      
+

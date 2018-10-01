@@ -1,0 +1,35 @@
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+#######################################
+## This file was copied by ansible    #
+## Please do not change it manually   #
+#######################################
+# Do not remove the following call to vyatta-postconfig-bootup.script.
+# Any boot time workarounds should be put in script below so that they
+# get preserved for the new image during image upgrade.
+POSTCONFIG=/opt/vyatta/etc/config/scripts/vyatta-postconfig-bootup.script
+[ -x $POSTCONFIG ] && $POSTCONFIG
+
+/sbin/ifconfig eth0 txqueuelen 16000
+/sbin/ifconfig eth1 txqueuelen 16000
+
+/sbin/ethtool -G eth0 rx 4096
+/sbin/ethtool -G eth1 rx 4096
+/sbin/ethtool -G eth0 tx 4096
+/sbin/ethtool -G eth1 tx 4096
+
+/usr/local/sbin/set_irq_affinity.sh eth0
+/usr/local/sbin/set_irq_affinity.sh eth1
+
+/sbin/ethtool -K eth0 tso off gro off gso off
+/sbin/ethtool -K eth1 tso off gro off gso off
+
+exit 0

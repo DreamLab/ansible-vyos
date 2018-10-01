@@ -1,0 +1,68 @@
+/* Ipsec settings */
+{% if ipsec_disable is defined %}
+{% else -%}
+
+vpn {
+    ipsec {
+
+        {% for espcfg in ipsec_esp -%}
+	    esp-group {{ espcfg.name }} {
+            {% if espcfg.compression is defined -%}
+            compression {{ espcfg.compression }}
+            {% endif -%}
+            lifetime {{ espcfg.lifetime }}
+            mode {{ espcfg.mode }}
+            {% if espcfg.pfs is defined -%}
+            pfs {{ espcfg.pfs }}
+            {% endif -%}
+            {% for espprop in espcfg.proposal -%}
+            proposal {{ loop.index }} {
+                encryption {{ espprop.encryption }}
+                hash {{ espprop.hash }}
+            }
+            {% endfor -%}
+        }
+        {% endfor -%}
+
+
+
+
+        {% for ikecfg in ipsec_isakmp -%}
+        ike-group {{ ikecfg.name }} {
+            {% if ikecfg.dpd_config is defined -%}
+            dead-peer-detection {
+                action {{ ikecfg.dpd_config[0].dpd_action }}
+                interval {{ ikecfg.dpd_config[0].dpd_interval }}
+                timeout {{ ikecfg.dpd_config[0].dpd_timeout }}
+            }
+            {% endif -%}
+            {% if ikecfg.ikev2_reauth is defined -%}
+            ikev2-reauth {{ ikecfg.ikev2_reauth }}
+            {% endif -%}
+            {% if ikecfg.key_exchange is defined -%}
+            key-exchange {{ ikecfg.key_exchange }}
+            {% endif -%}
+            lifetime {{ ikecfg.lifetime }}
+            {% for ikeprop in ikecfg.proposal -%}
+            proposal {{ loop.index }} {
+                dh-group {{ ikeprop.dh_group }}
+                encryption {{ ikeprop.encryption }}
+                hash {{ ikeprop.hash }}
+            }
+            {% endfor -%}
+        }
+        {% endfor -%}
+
+
+        ipsec-interfaces {
+            interface {{ ipsec_interface }}
+        }
+
+        {% if ipsec_nat_traversal is defined -%}
+        nat-traversal {{ ipsec_nat_traversal }}
+        {% endif -%}
+
+    }
+}
+
+{% endif %}

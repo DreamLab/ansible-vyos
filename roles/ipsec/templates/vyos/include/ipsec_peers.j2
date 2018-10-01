@@ -1,0 +1,57 @@
+/* ipsec peers */
+{#  require additional ipaddr filter which comes in ansible 1.9 by default #}
+{% if ipsec_disable is defined %}
+{% else -%}
+
+vpn {
+    ipsec {
+        site-to-site {
+           {% for ipsecpeer in ipsec_peers -%}
+            peer {{ ipsecpeer.peerip }} {
+
+                authentication {
+                    mode {{ ipsecpeer.authentication_mode }}
+                    pre-shared-secret {{ ipsecpeer.autehntication_data }}
+                }
+                description "{{ ipsecpeer.description }}"
+                connection-type {{ ipsecpeer.connection_type | default('initiate') }}
+                default-esp-group {{ ipsecpeer.default_esp_group }}
+                ike-group {{ ipsecpeer.ike_group }}
+                ikev2-reauth {{ ipsecpeer.ikev2_reauth }}
+
+                {% if ipsecpeer.local_address is defined -%}
+                local-address {{ ipsecpeer.local_address }}
+                {% else -%}
+                local-address {{ system_interfaces[ipsec_interface].address | ipaddr('address') }}
+                {% endif %}
+
+                {% if ipsecpeer.tunnels is defined -%}
+                {% for tunnel in ipsecpeer.tunnels -%}
+                tunnel {{ loop.index }} {
+                    allow-nat-networks {{ tunnel.allow_nat_networks | default('disable') }}
+                    allow-public-networks {{ tunnel.allow_public_networks | default('disable') }}
+                    esp-group {{ tunnel.esp_group | default(ipsecpeer.default_esp_group) }}
+                    local {
+                        prefix {{ tunnel.local }}
+                    }
+                    remote {
+                        prefix {{ tunnel.remote }}
+                    }
+                }
+                {% endfor -%}
+                {% endif -%}
+
+                {#  todo vti tunnel type with creating interfaces in system #}
+		{% if ipsecpeer.vti is defined -%}
+		vti {
+   		  bind {{ ipsecpeer.vti }}
+		  esp-group {{ ipsecpeer.default_esp_group }}
+		}
+		{% endif -%}
+            }
+            {% endfor -%}
+        }
+    }
+}
+
+{% endif %}

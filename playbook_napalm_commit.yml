@@ -1,0 +1,84 @@
+---
+# test playbook
+- name: Prepare dirs
+  hosts: svpnprod
+  gather_facts: no
+  connection: local
+
+  tasks:
+  - name: Remove old config
+    file: path={{ playbook_dir }}/compiled/{{ inventory_hostname }} state=absent
+    register: baseconfdir
+    tags: build
+    changed_when: False
+
+  - name: Create empty
+    file: >
+      path={{ playbook_dir }}/compiled/{{ inventory_hostname }} state=directory
+    tags: build
+    changed_when: False
+
+  - name: Remove old log directory
+    file: path={{ playbook_dir }}/logs/{{ inventory_hostname }} state=absent
+    register: baselogdir
+    tags: build
+    changed_when: False
+
+  - name: Create empty log dir
+    file: path={{ playbook_dir }}/logs/{{ inventory_hostname }} state=directory
+    tags: build
+    changed_when: False
+
+  - name: Static configs directory
+    file: path={{ playbook_dir }}/staticfiles state=directory
+    register: basestaticdir
+    tags: build
+    changed_when: False
+
+- name: Generate configs for vyos
+  hosts: svpnprod
+  gather_facts: no
+  connection: local
+  tags: build
+
+  roles:
+  - system
+  - protocols
+  - policy
+  - ipsec
+  - nat
+  - firewall
+  - interfaces
+  - bgp
+
+- name: Assemble and Generate configuration
+  hosts: svpnprod
+  connection: local
+  gather_facts: no
+  tags: compile
+
+  tasks:
+  - name: Assemble configuration
+    assemble: >
+      src={{ playbook_dir }}/compiled/{{ inventory_hostname }}
+      dest={{ playbook_dir }}/compiled/{{ inventory_hostname }}/running.conf
+    changed_when: False
+
+- name: Provision configuration to devices
+  hosts: [svpnprod]
+  connection: local
+  gather_facts: no
+  tags: deploy
+  tasks:
+    - name: Install new configuration
+      napalm_install_config:
+        hostname: "{{ ansible_ssh_host | default('vyos') }}"
+        username: "{{ ansible_ssh_user | default('vyos') }}"
+        password: "{{ ansible_ssh_password | default('vyos') }}"
+        dev_os: "{{ os }}"
+        optional_args: "{'port': {{ansible_ssh_port | default('22')}} }"
+        config_file: "compiled/{{inventory_hostname}}/running.conf"
+        replace_config: true
+        commit_changes: true
+        get_diffs: true
+        diff_file: "logs/{{inventory_hostname}}/{{inventory_hostname}}.diff"

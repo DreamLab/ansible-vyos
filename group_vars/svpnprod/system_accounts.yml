@@ -1,0 +1,12 @@
+---
+system_accounts:
+  - login: ansible
+    encryptedpass: "$6$No1ZFhDEY2ypjxN$vsXnI/cU3lZcCZt2FeY8VChNoXJ27hziJTg6XIP14fagY48TT.OYj8/2IQyBMihl0eoNDD1gpp2haeblQ8nNU1"
+    fullname: "Ansible account"
+    uid: "2001"
+    level: "admin"
+  - login: vyos
+    encryptedpass: "$1$EckAeduc$dED6eP8sP/lSzWy33oezL."
+    fullname: "Vyos account"
+    uid: "2002"
+    level: "admin"

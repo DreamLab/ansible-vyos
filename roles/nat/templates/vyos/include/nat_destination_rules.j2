@@ -1,0 +1,19 @@
+nat {
+    destination {
+        {% for dstrule in nat_destination_rules -%}
+        rule {{ loop.index }}  {
+            {% if dstrule.description is defined -%}
+            description {{ dstrule.description }}
+            {% endif %}
+            destination {
+                address {{ dstrule.destination_address }}
+            }
+            inbound-interface {{ dstrule.inbound_interface}}
+            translation {
+                address {{ dstrule.translation_address}}
+            }
+        }
+        {% endfor -%}
+    }
+}
+

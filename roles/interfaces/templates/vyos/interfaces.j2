@@ -1,0 +1,7 @@
+{% if interfaces is defined %}
+{% include "include/interfaces.j2" %}
+{% endif %}
+
+{% if ipsec_vti is defined -%}
+  {% include "include/interfaces_vti.j2" %}
+{% endif %}

@@ -1,0 +1,4 @@
+---
+- name: "Building configuration from protocols role"
+  template: src={{os}}/protocols.j2 dest={{baseconfdir.path}}/2_protocols.out
+  tags: build

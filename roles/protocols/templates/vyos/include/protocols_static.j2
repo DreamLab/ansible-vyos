@@ -1,0 +1,12 @@
+protocols {
+    static {
+        {% for route in protocols_static -%}
+        route {{route.prefix}} {
+            next-hop {{route.next_hop}} {
+            {% if route.distance is defined -%}distance {{route.distance}}
+            {% endif -%}
+            }
+        }
+        {% endfor %}
+    }
+}

@@ -1,0 +1,4 @@
+---
+- name: "Building configuration from interface role"
+  template: src={{os}}/interfaces.j2 dest={{baseconfdir.path}}/2_interfaces.out
+  tags: build

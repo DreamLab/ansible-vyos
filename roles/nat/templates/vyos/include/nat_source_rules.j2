@@ -1,0 +1,19 @@
+nat {
+    source {
+        {% for srcrule in nat_source_rules -%}
+        rule {{ loop.index }} {
+            {% if srcrule.description is defined -%}
+            description {{ srcrule.description}}
+            {% endif %}
+            outbound-interface {{ srcrule.outbound_interface}}
+            source {
+                address {{ srcrule.source_address}}
+            }
+            translation {
+                address {{ srcrule.translation_address}}
+            }
+        }
+        {% endfor -%}
+    }
+}
+

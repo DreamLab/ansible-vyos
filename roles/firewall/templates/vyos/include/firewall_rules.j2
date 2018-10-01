@@ -1,0 +1,55 @@
+
+firewall {
+    {% for acls in firewall_rules -%}
+    name {{ acls.name }} {
+	    {% if acls.default_action is defined -%}
+        default-action {{ acls.default_action }}
+		{% endif %}
+		{% if acls.description is defined -%}
+        description "{{ acls.description }}"
+		{% endif %}
+		{% for rule in acls.rules -%}
+        rule {{ loop.index }} {
+            action {{ rule.action }}
+			{% if rule.destination_address is defined or ( rule.destination_port is defined ) -%}
+            destination {
+			    {% if rule.destination_address is defined -%}
+                address {{ rule.destination_address}}
+				{% endif -%}
+				{% if  rule.destination_port is defined -%}
+                port {{ rule.destination_port}}
+				{% endif -%}
+            }
+			{% endif -%}
+
+			{% if rule.protocol is defined -%}
+            protocol {{ rule.protocol}}
+			{% endif -%}
+
+			{% if rule.protocol is undefined and (( rule.destination_port is defined ) or (rule.source_port is defined))-%}
+            protocol tcp_udp
+			{% endif -%}
+
+      {% if rule.tcp_established is defined -%}
+            state {
+              established enable
+              related enable
+            }
+      {% endif -%}
+
+			{% if rule.source_address is defined or ( rule.source_port is defined ) -%}
+            source {
+			    {% if rule.source_address is defined -%}
+                address {{ rule.source_address}}
+				{% endif -%}
+				{% if  rule.source_port is defined -%}
+                port {{ rule.source_port}}
+				{% endif -%}
+            }
+			{% endif -%}
+
+        }
+		{% endfor -%}
+    }
+	{% endfor -%}
+}

@@ -1,0 +1,23 @@
+service {
+    ssh {
+        disable-host-validation
+        {% if system_ssh_diasble_pass_auth is defined -%} 
+        disable-password-authentication
+        {% endif -%}
+        {% if system_ssh_listen is defined -%}
+        {% set sshaddr = system_ssh_listen  | ipaddr('address') %}
+         {% if sshaddr != False -%}
+        listen-address {{ sshaddr }}
+         {% endif -%}
+        {% endif -%}
+        
+        {% if system_ssh_listen_int is defined and  (not system_ssh_listen is defined)-%}
+        {% set sshaddr = system_interfaces[system_ssh_listen_int].address  | ipaddr('address') %}
+         {% if sshaddr != False -%}
+        listen-address  {{ sshaddr }}
+         {% endif -%}
+        {% endif -%}
+
+        port {{ system_ssh_port | default('22') }}
+    }
+}

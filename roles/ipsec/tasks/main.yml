@@ -1,4 +1,6 @@
 ---
 - name: "Building configuration from ipsec role"
-  template: src={{os}}/ipsec.j2 dest={{baseconfdir.path}}/6_ipsec.out
+  template:
+    dest: "{{baseconfdir.path}}/50_ipsec.out"
+    src: "{{os}}/ipsec.j2"
   tags: build

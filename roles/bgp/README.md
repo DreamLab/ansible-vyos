@@ -3,7 +3,7 @@ Generate configuration for the bgp routing protocol and routing-options
 Currently supported os: vyos
 
 Features:
-- bgp config
+- bgp config (networks, aggregates, graceful restart)
 - ibgp neighbour
 - ebgp neighbour
 

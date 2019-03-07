@@ -1,0 +1,10 @@
+---
+bgp_config:
+  main:
+    graceful_restart: "yes"
+    group:
+      ebgp:
+        description: "BGP to Amazon"
+
+    networks:
+      - "10.0.0.0/24"

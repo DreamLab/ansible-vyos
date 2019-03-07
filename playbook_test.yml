@@ -35,17 +35,6 @@
       tags: build
       changed_when: False
 
-- name: Check version of VyOS
-  hosts: svpnprod
-  gather_facts: no
-  tags: build
-
-  tasks:
-    - name: Check if FRR directory exists.
-      stat:
-        path: /etc/frr/
-      register: vyos_frr_daemon
-
 - name: Generate configs for vyos
   hosts: svpnprod
   gather_facts: no
@@ -74,22 +63,3 @@
         src: "{{ playbook_dir }}/compiled/{{ inventory_hostname }}"
         dest: "{{ playbook_dir }}/compiled/{{ inventory_hostname }}/running.conf"
       changed_when: False
-
-- name: Provision configuration to devices
-  hosts: [svpnprod]
-  connection: local
-  gather_facts: no
-  tags: deploy
-  tasks:
-    - name: Install new configuration
-      napalm_install_config:
-        hostname: "{{ ansible_ssh_host | default('vyos') }}"
-        username: "{{ ansible_ssh_user | default('vyos') }}"
-        password: "{{ ansible_ssh_password | default('vyos') }}"
-        dev_os: "{{ os }}"
-        optional_args: "{'port': {{ansible_ssh_port | default('22')}} }"
-        config_file: "compiled/{{inventory_hostname}}/running.conf"
-        replace_config: true
-        commit_changes: true
-        get_diffs: true
-        diff_file: "logs/{{inventory_hostname}}/{{inventory_hostname}}.diff"

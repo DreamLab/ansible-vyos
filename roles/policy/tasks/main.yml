@@ -1,6 +1,6 @@
 ---
 - name: "Building configuration from policy role"
-  template: src={{os}}/policy.j2 dest={{baseconfdir.path}}/2_policy.out
+  template:
+    dest: "{{baseconfdir.path}}/30_policy.out"
+    src: "{{os}}/policy.j2"
   tags: build
-
-

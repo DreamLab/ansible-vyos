@@ -1,3 +1,7 @@
 {% if bgp_config is defined -%}
-  {% include "include/protocol_bgp.j2" %}
+  {% if vyos_frr_deamon is defined -%}}
+    {% include "include/frr_bgp.j2" %}
+  {% else %}
+    {% include "include/quagga_bgp.j2" %}
+  {% endif -%}
 {% endif -%}

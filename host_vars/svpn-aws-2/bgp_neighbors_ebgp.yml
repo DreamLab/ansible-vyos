@@ -1,0 +1,10 @@
+---
+bgp_neighbors_ebgp:
+  "amazon_bgp1_ipv4":
+    peer_ip: "169.254.44.193"
+    peer_as: "64512"
+    description: "AMZ BGP session 1"
+    import: "policy-amazon-in"
+    export: "policy-amazon-out"
+    member_of: "ebgp"
+    bind_router: "svpn-aws-2"

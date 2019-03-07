@@ -1,4 +1,6 @@
 ---
 - name: "Building configuration from bgp role"
-  template: src={{os}}/bgp.j2 dest={{baseconfdir.path}}/99_bgp.out
+  template:
+    dest: "{{baseconfdir.path}}/80_bgp.out"
+    src: "{{os}}/bgp.j2"
   tags: build

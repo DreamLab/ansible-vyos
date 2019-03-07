@@ -1,0 +1,60 @@
+---
+ipsec_interface: dum1
+ipsec_nat_traversal: enable
+
+ipsec_esp:
+  - name: "AWS"
+    compression: "disable"
+    lifetime: "3600"
+    mode: "tunnel"
+    pfs: "enable" 
+    proposal:
+      - { encryption: "aes128", hash: "sha1" }
+  - name: "ESP-1W"
+    lifetime: "28800"
+    mode: "tunnel"
+    pfs: "dh-group5" 
+    proposal:
+      - { encryption: "3des", hash: "sha1" }
+  - name: "ESP-1W-AES"
+    lifetime: "28800"
+    mode: "tunnel"
+    pfs: "dh-group5" 
+    proposal:
+      - { encryption: "aes256", hash: "sha1" }
+
+ipsec_isakmp:
+  - name: "AWS"
+    dpd_config: 
+      - {dpd_action: "restart", dpd_interval: "15", dpd_timeout: "30" }
+    ikev2_reauth: "no"
+    key_exchange: "ikev1"
+    lifetime: "28800"
+    proposal:
+      - { dh_group: "2", encryption: "aes128", hash: "sha1" }  
+  - name: "IKE-1W"
+    lifetime: "86400"
+    proposal:
+      - { dh_group: "2", encryption: "3des", hash: "sha1" }
+  - name: "IKE-1W-AES"
+    lifetime: "86400"
+    proposal:
+      - { dh_group: "2", encryption: "3des", hash: "sha1" } 
+
+ipsec_peers:
+  - peerip: "192.168.56.12"
+    description: "to other vyos"
+    authentication_mode: "pre-shared-secret"
+    autehntication_data: "123qwe"
+    ike_group: "IKE-1W"
+    connection_type: "initiate"
+    ikev2_reauth: "no"
+    default_esp_group: "ESP-1W"
+    vti: "vti0"
+
+ipsec_vti:
+  - iface: "vti0"
+    local_ip: "169.254.44.194"
+    remote_ip: "169.254.44.193"
+    mask: "30"
+

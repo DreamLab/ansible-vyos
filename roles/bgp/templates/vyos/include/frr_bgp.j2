@@ -46,11 +46,11 @@ protocols  {
                             {% endif -%}
                             {% if bgp_neighbors_ebgp[peer].export %}export {{bgp_neighbors_ebgp[peer].export}}
                             {% endif -%}
+                            soft-reconfiguration {
+                                inbound
+                            }
                             }
                         }
-                    }
-                    soft-reconfiguration {
-                        inbound
                     }
                     remote-as {{ bgp_neighbors_ebgp[peer].peer_as }}
                     description "{{ bgp_neighbors_ebgp[peer].description }}"

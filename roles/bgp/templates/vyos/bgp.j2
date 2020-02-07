@@ -1,5 +1,5 @@
 {% if bgp_config is defined -%}
-  {% if vyos_frr_daemon is defined -%}}
+  {% if vyos_frr_daemon is defined -%}
     {% include "include/frr_bgp.j2" %}
   {% else %}
     {% include "include/quagga_bgp.j2" %}

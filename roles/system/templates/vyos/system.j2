@@ -18,9 +18,6 @@ system {
     {% if system_dns is defined %}
     {% include "include/system_dns.j2" %}
     {% endif %}
-    {% if system_interfaces is defined %}
-    {% include "include/system_interfaces.j2" %}
-    {% endif %}
 
     {% include "include/system_syslog.j2" %}
 
@@ -40,3 +37,7 @@ service {
     {% include "include/system_dhcp_relay.j2" %}
     {% endif %}
 }
+
+{% if system_interfaces is defined %}
+{% include "include/system_interfaces.j2" %}
+{% endif %}

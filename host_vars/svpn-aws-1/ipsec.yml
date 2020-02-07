@@ -7,31 +7,31 @@ ipsec_esp:
     compression: "disable"
     lifetime: "3600"
     mode: "tunnel"
-    pfs: "enable" 
+    pfs: "enable"
     proposal:
       - { encryption: "aes128", hash: "sha1" }
   - name: "ESP-1W"
     lifetime: "28800"
     mode: "tunnel"
-    pfs: "dh-group5" 
+    pfs: "dh-group5"
     proposal:
       - { encryption: "3des", hash: "sha1" }
   - name: "ESP-1W-AES"
     lifetime: "28800"
     mode: "tunnel"
-    pfs: "dh-group5" 
+    pfs: "dh-group5"
     proposal:
       - { encryption: "aes256", hash: "sha1" }
 
 ipsec_isakmp:
   - name: "AWS"
-    dpd_config: 
-      - {dpd_action: "restart", dpd_interval: "15", dpd_timeout: "30" }
+    dpd_config:
+      - { dpd_action: "restart", dpd_interval: "15", dpd_timeout: "30" }
     ikev2_reauth: "no"
     key_exchange: "ikev1"
     lifetime: "28800"
     proposal:
-      - { dh_group: "2", encryption: "aes128", hash: "sha1" }  
+      - { dh_group: "2", encryption: "aes128", hash: "sha1" }
   - name: "IKE-1W"
     lifetime: "86400"
     proposal:
@@ -39,7 +39,7 @@ ipsec_isakmp:
   - name: "IKE-1W-AES"
     lifetime: "86400"
     proposal:
-      - { dh_group: "2", encryption: "3des", hash: "sha1" } 
+      - { dh_group: "2", encryption: "3des", hash: "sha1" }
 
 ipsec_peers:
   - peerip: "192.168.56.12"
@@ -57,4 +57,3 @@ ipsec_vti:
     local_ip: "169.254.44.194"
     remote_ip: "169.254.44.193"
     mask: "30"
-

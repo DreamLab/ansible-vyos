@@ -1,8 +1,8 @@
-/* Warning: Do not remove the following line. */
-/* === vyatta-config-version: "cluster@1:config-management@1:conntrack-sync@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@4:nat@4:qos@1:quagga@2:system@6:vrrp@1:wanloadbalance@3:webgui@1:webproxy@1:zone-policy@1" === */
-{% if vyos_frr_deamon is defined -%}}
+# /* Warning: Do not remove the following line. */
+# /* === vyatta-config-version: "cluster@1:config-management@1:conntrack-sync@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@4:nat@4:qos@1:quagga@2:system@6:vrrp@1:wanloadbalance@3:webgui@1:webproxy@1:zone-policy@1" === */
+{% if vyos_frr_daemon is defined -%}}
 /* Release version: VyOS 1.2.0 */
-{% elseif %}
+{% else %}
 /* Release version: VyOS 1.1.8 */
 {% endif %}
 

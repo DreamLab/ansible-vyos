@@ -1,9 +1,8 @@
 vpn {
-    ipsec {
 {% if ipsec_esp is defined or ipsec_isakmp is defined -%}
   {% include "include/ipsec_settings.j2" %}
 {% endif %}
-
+    ipsec {
 {% if ipsec_peers is defined -%}
   {% include "include/ipsec_peers.j2" %}
 {% endif %}

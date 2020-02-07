@@ -1,8 +1,10 @@
+{% if vyos_frr_daemon is defined -%}}
+/* Warning: Do not remove the following line. */
+/* === vyatta-config-version: "broadcast-relay@1:cluster@1:config-management@1:conntrack@1:conntrack-sync@1:dhcp-relay@2:dhcp-server@5:dns-forwarding@2:firewall@5:interfaces@4:ipsec@5:l2tp@2:lldp@1:mdns@1:nat@4:ntp@1:pptp@1:qos@1:quagga@4:snmp@1:ssh@1:system@16:vrrp@2:vyos-accel-ppp@2:wanloadbalance@3:webgui@1:webproxy@2:zone-policy@1" === */
+/* Release version: 1.2.5 */
+{% else %}
 # /* Warning: Do not remove the following line. */
 # /* === vyatta-config-version: "cluster@1:config-management@1:conntrack-sync@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@4:nat@4:qos@1:quagga@2:system@6:vrrp@1:wanloadbalance@3:webgui@1:webproxy@1:zone-policy@1" === */
-{% if vyos_frr_daemon is defined -%}}
-/* Release version: VyOS 1.2.0 */
-{% else %}
 /* Release version: VyOS 1.1.8 */
 {% endif %}
 

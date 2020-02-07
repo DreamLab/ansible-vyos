@@ -8,7 +8,6 @@ deny
 {% endif %}
 {% endmacro %}
 
-policy {
 {% for statement in policy_statement -%}
   route-map {{statement}} {
   {% for term in policy_statement[statement].terms -%}
@@ -36,5 +35,4 @@ policy {
   {% endfor -%}
   }
 
-{% endfor -%} 
-}
+{% endfor -%}

@@ -1,4 +1,3 @@
-policy {
 {% for pfx in policy_prefix_list -%}
 prefix-list {{ pfx }} {
 
@@ -14,4 +13,3 @@ prefix-list {{ pfx }} {
 {% endif -%}
   }
 {% endfor %}
-}

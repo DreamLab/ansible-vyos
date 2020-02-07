@@ -1,4 +1,3 @@
-service {
     ssh {
         disable-host-validation
         {% if system_ssh_diasble_pass_auth is defined -%} 
@@ -20,4 +19,3 @@ service {
 
         port {{ system_ssh_port | default('22') }}
     }
-}

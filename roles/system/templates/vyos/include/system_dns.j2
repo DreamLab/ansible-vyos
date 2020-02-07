@@ -1,6 +1,4 @@
 
-system {
         {% for dnssrv in system_dns -%}
         name-server {{ dnssrv }}
         {% endfor -%}
-}

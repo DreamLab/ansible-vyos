@@ -1,4 +1,4 @@
-system {
+
     login {
         {% for user in system_accounts -%}
         user {{ user.login }} {
@@ -47,4 +47,3 @@ system {
         {% endfor -%}
 	{% endif -%}
     }
-}

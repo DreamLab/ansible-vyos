@@ -8,36 +8,35 @@
 /* Release version: VyOS 1.1.8 */
 {% endif %}
 
-{% include "include/system_base.j2" %}
+system {
+    {% include "include/system_base.j2" %}
 
-{% if system_ntp is defined %}
-{% include "include/system_ntp.j2" %}
-{% endif %}
+    {% if system_ntp is defined %}
+    {% include "include/system_ntp.j2" %}
+    {% endif %}
 
-{% if system_dns is defined %}
-{% include "include/system_dns.j2" %}
-{% endif %}
+    {% if system_dns is defined %}
+    {% include "include/system_dns.j2" %}
+    {% endif %}
+    {% if system_interfaces is defined %}
+    {% include "include/system_interfaces.j2" %}
+    {% endif %}
 
-{% include "include/system_ssh.j2" %}
+    {% include "include/system_syslog.j2" %}
 
-{% if system_interfaces is defined %}
-{% include "include/system_interfaces.j2" %}
-{% endif %}
+    {% include "include/system_accounts.j2" %}
 
-{% include "include/system_syslog.j2" %}
+    {% if system_banner is defined %}
+    {% include "include/system_banner.j2" %}
+    {% endif %}
+}
 
-{% include "include/system_accounts.j2" %}
-
-{% if system_banner is defined %}
-{% include "include/system_banner.j2" %}
-{% endif %}
-
-
-{% if system_snmp is defined %}
-{% include "include/system_snmp.j2" %}
-{% endif %}
-
-
-{% if system_dhcp_relay is defined %}
-{% include "include/system_dhcp_relay.j2" %}
-{% endif %}
+service {
+    {% include "include/system_ssh.j2" %}
+    {% if system_snmp is defined %}
+    {% include "include/system_snmp.j2" %}
+    {% endif %}
+    {% if system_dhcp_relay is defined %}
+    {% include "include/system_dhcp_relay.j2" %}
+    {% endif %}
+}

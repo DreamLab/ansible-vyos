@@ -1,4 +1,3 @@
-service {
     dhcp-relay {
 {% for port in system_dhcp_relay_ports -%}
         interface {{port}}

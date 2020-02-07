@@ -30,6 +30,7 @@ system_interfaces:
     type: "ethernet"
     address: "10.200.202.25/24"
     description: "management"
+    gateway: "10.200.202.1"
   dum1:
     type: "dummy"
     address: "172.16.3.1/24"

@@ -1,10 +1,6 @@
 /* Ipsec settings */
 {% if ipsec_disable is defined %}
 {% else -%}
-
-vpn {
-    ipsec {
-
         {% for espcfg in ipsec_esp -%}
 	    esp-group {{ espcfg.name }} {
             {% if espcfg.compression is defined -%}
@@ -61,8 +57,4 @@ vpn {
         {% if ipsec_nat_traversal is defined -%}
         nat-traversal {{ ipsec_nat_traversal }}
         {% endif -%}
-
-    }
-}
-
 {% endif %}

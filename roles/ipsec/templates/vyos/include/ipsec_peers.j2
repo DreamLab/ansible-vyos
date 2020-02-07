@@ -3,8 +3,6 @@
 {% if ipsec_disable is defined %}
 {% else -%}
 
-vpn {
-    ipsec {
         site-to-site {
            {% for ipsecpeer in ipsec_peers -%}
             peer {{ ipsecpeer.peerip }} {
@@ -51,7 +49,4 @@ vpn {
             }
             {% endfor -%}
         }
-    }
-}
-
 {% endif %}
